@@ -12,8 +12,8 @@ import (
 
 const UrlUserStories = `https://i.instagram.com/api/v1/feed/user/{{USERID}}/reel_media/`
 
-func GetUserStories(id int, cfg map[string]string) (tray Tray, err error) {
-	url := strings.Replace(UrlUserStories, "{{USERID}}", strconv.Itoa(id), 1)
+func GetUserStories(id int64, cfg map[string]string) (tray Tray, err error) {
+	url := strings.Replace(UrlUserStories, "{{USERID}}", strconv.FormatInt(id, 10), 1)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return

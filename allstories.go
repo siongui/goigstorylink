@@ -20,8 +20,8 @@ type RawReelsTray struct {
 
 // Used to decode JSON returned by Instagram story API.
 type Tray struct {
-	Id              int        `json:"id"`
-	LatestReelMedia int        `json:"latest_reel_media"`
+	Id              int64      `json:"id"`
+	LatestReelMedia int64      `json:"latest_reel_media"`
 	User            TrayUser   `json:"user"`
 	Items           []TrayItem `json:"items"`
 }

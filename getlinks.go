@@ -3,7 +3,7 @@ package igstory
 // Get all stories links of users that a user follows
 
 type IGUser struct {
-	Id       int
+	Id       int64
 	Username string
 	Stories  []IGStory
 }
