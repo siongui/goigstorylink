@@ -23,6 +23,13 @@ above information:
    cookie tools.
 
 
+JSON fields of Instagram API
+++++++++++++++++++++++++++++
+
+Only necessary fields are included in the code of this repo. If you need more
+complete fields, please see `types.go`_ in goinsta_ repo.
+
+
 Get User Info
 +++++++++++++
 
@@ -84,3 +91,6 @@ References
 .. _instastories-backup: https://github.com/hoschiCZ/instastories-backup
 .. _Chrome Developer Tools: https://developer.chrome.com/devtools
 .. _SO answer: https://stackoverflow.com/a/44773079
+.. _Instagram: https://www.instagram.com/
+.. _goinsta: https://github.com/ahmdrz/goinsta
+.. _types.go: https://github.com/ahmdrz/goinsta/blob/master/response/types.go
