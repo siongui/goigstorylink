@@ -13,6 +13,9 @@ type IGStory struct {
 	Url       string
 }
 
+// Get stories of users with unread stories. The returned users will contains
+// all users with unexpired stories, but only users with unread stories will
+// have non-empty Stories field.
 func GetUnreadStories() (users []IGUser, err error) {
 	trays, err := GetReelsTray(config)
 	if err != nil {
@@ -50,6 +53,12 @@ func GetUnreadStories() (users []IGUser, err error) {
 	return
 }
 
-// TODO
-func GetAllStories() {
+// Get all stories of users
+func GetAllStories() (users []IGUser, err error) {
+	users, err = GetUnreadStories()
+	if err != nil {
+		return
+	}
+
+	return
 }
