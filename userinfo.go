@@ -1,7 +1,7 @@
 package igstory
 
-// read user information, such as id,  via username
-// see ``Instagram API -Get the userId - Stack Overflow``
+// Get Instagram user information, such as id and biography, via username.
+// See ``Instagram API -Get the userId - Stack Overflow``
 // https://stackoverflow.com/a/44773079
 
 import (
@@ -17,12 +17,14 @@ type RawUserResp struct {
 	User UserInfo
 }
 
+// You can add more fields in the struct to get more information
+// See response/types.go in github.com/ahmdrz/goinsta
 type UserInfo struct {
 	Id        string `json:"id"`
 	Biography string `json:"biography"`
 }
 
-func GetUserInfo(username string) (userinfo *UserInfo, err error) {
+func GetUserInfo(username string) (ui UserInfo, err error) {
 	url := strings.Replace(UrlUserInfo, "{{USERNAME}}", username, 1)
 	resp, err := http.Get(url)
 	if err != nil {
@@ -35,7 +37,15 @@ func GetUserInfo(username string) (userinfo *UserInfo, err error) {
 	if err = dec.Decode(&r); err != nil {
 		return
 	}
-	userinfo = &(r.User)
+	ui = r.User
+	return
+}
 
+func GetUserId(username string) (id string, err error) {
+	ui, err := GetUserInfo(username)
+	if err != nil {
+		return
+	}
+	id = ui.Id
 	return
 }
