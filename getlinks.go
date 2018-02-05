@@ -50,18 +50,6 @@ func GetUnreadStories() (users []IGUser, err error) {
 	return
 }
 
-func SetUserId(s string) {
-	config["ds_user_id"] = s
-}
-
-func SetSessionId(s string) {
-	config["sessionid"] = s
-}
-
-func SetCsrfToken(s string) {
-	config["csrftoken"] = s
-}
-
 // TODO
 func GetAllStories() {
 }
