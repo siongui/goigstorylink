@@ -27,3 +27,18 @@ func printTray(tray Tray) {
 		}
 	}
 }
+
+func printIGUsers(users []IGUser) {
+	for _, user := range users {
+		fmt.Print(user.Id)
+		fmt.Print(" : ")
+		fmt.Println(user.Username)
+		for _, story := range user.Stories {
+			tt := time.Unix(story.Timestamp, 0)
+			fmt.Print(tt.Format(time.RFC3339))
+			fmt.Print("\t")
+			fmt.Println(story.Url)
+		}
+	}
+
+}
