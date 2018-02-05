@@ -2,6 +2,27 @@
 Web Scrape Instagram Stories in Go_
 ===================================
 
+.. image:: https://img.shields.io/badge/Language-Go-blue.svg
+   :target: https://golang.org/
+
+.. image:: https://godoc.org/github.com/siongui/goigstorylink?status.png
+   :target: https://godoc.org/github.com/siongui/goigstorylink
+
+.. image:: https://api.travis-ci.org/siongui/goigstorylink.png?branch=master
+   :target: https://travis-ci.org/siongui/goigstorylink
+
+.. image:: https://goreportcard.com/badge/github.com/siongui/goigstorylink
+   :target: https://goreportcard.com/report/github.com/siongui/goigstorylink
+
+.. image:: https://img.shields.io/badge/license-Unlicense-blue.svg
+   :target: https://raw.githubusercontent.com/siongui/goigstorylink/master/UNLICENSE
+
+.. image:: https://img.shields.io/badge/Status-Beta-brightgreen.svg
+
+.. image:: https://img.shields.io/twitter/url/https/github.com/siongui/goigstorylink.svg?style=social
+   :target: https://twitter.com/intent/tweet?text=Wow:&url=%5Bobject%20Object%5D
+
+
 Get all links of Instagram stories in Go_.
 
 
@@ -28,12 +49,6 @@ JSON fields of Instagram API
 
 Only necessary fields are included in the code of this repo. If you need more
 complete fields, please see `types.go`_ in goinsta_ repo.
-
-
-Get User Info
-+++++++++++++
-
-See `Instagram API -Get the userId <https://stackoverflow.com/a/44773079>`_
 
 
 UNLICENSE
