@@ -7,18 +7,18 @@ package igstory
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 	"strconv"
-	"time"
 )
 
 const UrlAllStories = `https://i.instagram.com/api/v1/feed/reels_tray/`
 
+// Used to decode JSON returned by Instagram story API.
 type RawReelsTray struct {
 	Trays []Tray `json:"tray"`
 }
 
+// Used to decode JSON returned by Instagram story API.
 type Tray struct {
 	Id              int        `json:"id"`
 	LatestReelMedia int        `json:"latest_reel_media"`
@@ -26,10 +26,12 @@ type Tray struct {
 	Items           []TrayItem `json:"items"`
 }
 
+// Used to decode JSON returned by Instagram story API.
 type TrayUser struct {
 	Username string `json:"username"`
 }
 
+// Used to decode JSON returned by Instagram story API.
 type TrayItem struct {
 	TakenAt         int64                  `json:"taken_at"`
 	DeviceTimestamp int64                  `json:"device_timestamp"` // not reliable value
@@ -38,18 +40,20 @@ type TrayItem struct {
 	//HasAudio        bool                    `json:"has_audio"`
 }
 
+// Used to decode JSON returned by Instagram story API.
 type TrayItemVideoVersion struct {
 	Url string `json:"url"`
 	Id  string `json:"id"`
 }
 
+// Used to decode JSON returned by Instagram story API.
 type TrayItemImageVersion2 struct {
 	Candidates []struct {
 		Url string `json:"url"`
 	} `json:"candidates"`
 }
 
-func GetAllStories(cfg map[string]string) (trays []Tray, err error) {
+func GetReelsTray(cfg map[string]string) (trays []Tray, err error) {
 	req, err := http.NewRequest("GET", UrlAllStories, nil)
 	if err != nil {
 		return
@@ -81,27 +85,4 @@ func GetAllStories(cfg map[string]string) (trays []Tray, err error) {
 	trays = t.Trays
 
 	return
-}
-
-func printTray(tray Tray) {
-	fmt.Print(tray.Id)
-	fmt.Print(" : ")
-	fmt.Println(tray.User.Username)
-
-	// One item represents one story
-	for _, item := range tray.Items {
-		// print timestamp of story
-		// DO NOT use DeviceTimestamp. It's not reliable
-		t := time.Unix(item.TakenAt, 0)
-		fmt.Println(t.Format(time.RFC3339))
-
-		// check if the story is video or image
-		if len(item.VideoVersions) > 0 {
-			// the story is video
-			fmt.Println(item.VideoVersions[0].Url)
-		} else {
-			// the story is image
-			fmt.Println(item.ImageVersions2.Candidates[0].Url)
-		}
-	}
 }

@@ -8,7 +8,7 @@ export PATH := $(GOROOT)/bin:$(GOPATH)/bin:$(PATH)
 
 test: fmt
 	@echo "\033[92mTest Reading Stories ...\033[0m"
-	@go test -v allstories.go allstories_test.go config.go userstories.go
+	@go test -v getlinks.go getlinks_test.go config.go allstories.go userstories.go debug.go
 
 userinfo: fmt
 	@echo "\033[92mTest userinfo.go ...\033[0m"
