@@ -13,5 +13,5 @@ func ExampleGetAllStories(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	printIGUsers(users)
+	PrintIGUsers(users)
 }
