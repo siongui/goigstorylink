@@ -79,8 +79,18 @@ func MonitorAndDownload(userid, sessionid, csrftoken string) {
 	cc := color.New(color.FgCyan)
 	rc := color.New(color.FgRed)
 	sleepInterval := 30 // seconds
+	count := 0
 	for {
-		DownloadUnread()
+		if count == 0 {
+			DownloadAll()
+			cc.Println("Download all stories finished")
+		} else {
+			DownloadUnread()
+			cc.Println("Download unread stories finished")
+		}
+		count++
+		count %= 5
+
 		rc.Print(time.Now().Format(time.RFC3339))
 		fmt.Print(": sleep ")
 		cc.Print(sleepInterval)
