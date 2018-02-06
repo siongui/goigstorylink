@@ -11,7 +11,9 @@ import (
 func Download() {
 	users, err := igstory.GetUnreadStories()
 	if err != nil {
-		panic(err)
+		// TODO: return error
+		fmt.Println(err)
+		return
 	}
 
 	cc := color.New(color.FgCyan)
