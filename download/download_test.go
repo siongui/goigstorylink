@@ -4,6 +4,6 @@ import (
 	"testing"
 )
 
-func TestMonitorAndDownload(t *testing.T) {
+func ExampleMonitorAndDownload(t *testing.T) {
 	MonitorAndDownload("your user id", "your session id", "your csrftoken")
 }

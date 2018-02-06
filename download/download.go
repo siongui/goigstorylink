@@ -31,19 +31,17 @@ func PrintDownloadInfo(username, url, filepath string, timestamp int64) {
 	fmt.Println(" ...")
 }
 
-func DownloadIGUsers(users []igstory.IGUser) {
-	for _, user := range users {
-		for _, story := range user.Stories {
-			// BuildOutputFilePath also create dir if not exist
-			p := BuildOutputFilePath(user.Username, story.Url, story.Timestamp)
-			// check if file exist
-			if _, err := os.Stat(p); os.IsNotExist(err) {
-				// file not exists
-				PrintDownloadInfo(user.Username, story.Url, p, story.Timestamp)
-				err = Wget(story.Url, p)
-				if err != nil {
-					fmt.Println(err)
-				}
+func DownloadIGUser(user igstory.IGUser) {
+	for _, story := range user.Stories {
+		// BuildOutputFilePath also create dir if not exist
+		p := BuildOutputFilePath(user.Username, story.Url, story.Timestamp)
+		// check if file exist
+		if _, err := os.Stat(p); os.IsNotExist(err) {
+			// file not exists
+			PrintDownloadInfo(user.Username, story.Url, p, story.Timestamp)
+			err = Wget(story.Url, p)
+			if err != nil {
+				fmt.Println(err)
 			}
 		}
 	}
@@ -57,7 +55,9 @@ func DownloadUnread() {
 		return
 	}
 
-	DownloadIGUsers(users)
+	for _, user := range users {
+		DownloadIGUser(user)
+	}
 }
 
 func DownloadAll() {
@@ -68,7 +68,9 @@ func DownloadAll() {
 		return
 	}
 
-	DownloadIGUsers(users)
+	for _, user := range users {
+		DownloadIGUser(user)
+	}
 }
 
 func MonitorAndDownload(userid, sessionid, csrftoken string) {
