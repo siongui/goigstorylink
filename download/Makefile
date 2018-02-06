@@ -10,6 +10,10 @@ test: fmt
 	@echo "\033[92mTest Reading Stories ...\033[0m"
 	@go test -v
 
+dl:
+	@echo "\033[92mRun forever ...\033[0m"
+	@go run example/main.go
+
 fmt:
 	@echo "\033[92mGo fmt source code...\033[0m"
 	@go fmt *.go
