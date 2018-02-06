@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func printTray(tray Tray) {
+func PrintTray(tray Tray) {
 	fmt.Print(tray.Id)
 	fmt.Print(" : ")
 	fmt.Println(tray.User.Username)
@@ -28,7 +28,7 @@ func printTray(tray Tray) {
 	}
 }
 
-func printIGUsers(users []IGUser) {
+func PrintIGUsers(users []IGUser) {
 	for _, user := range users {
 		fmt.Print(user.Id)
 		fmt.Print(" : ")
