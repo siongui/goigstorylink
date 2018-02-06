@@ -76,9 +76,15 @@ func MonitorAndDownload(userid, sessionid, csrftoken string) {
 	igstory.SetSessionId(sessionid)
 	igstory.SetCsrfToken(csrftoken)
 
+	cc := color.New(color.FgCyan)
+	rc := color.New(color.FgRed)
+	sleepInterval := 30 // seconds
 	for {
 		DownloadUnread()
-		fmt.Println("sleep 1 min")
-		time.Sleep(1 * time.Minute)
+		rc.Print(time.Now().Format(time.RFC3339))
+		fmt.Print(": sleep ")
+		cc.Print(sleepInterval)
+		fmt.Println(" second")
+		time.Sleep(time.Duration(sleepInterval) * time.Second)
 	}
 }
