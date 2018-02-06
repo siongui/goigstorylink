@@ -17,6 +17,7 @@ func StripQueryString(inputUrl string) string {
 
 func BuildOutputPath(username, url string, timestamp int64) string {
 	dirname := path.Join("stories", username)
+	CreateDirIfNotExist(dirname)
 	filename := path.Base(StripQueryString(url))
 	ext := path.Ext(filename)
 	t := time.Unix(timestamp, 0)

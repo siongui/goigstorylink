@@ -13,7 +13,12 @@ func Download() {
 
 	for _, user := range users {
 		for _, story := range user.Stories {
-			fmt.Println(BuildOutputPath(user.Username, story.Url, story.Timestamp))
+			p := BuildOutputPath(user.Username, story.Url, story.Timestamp)
+			fmt.Println(p)
+
+			// check if dir exist
+			// check if file exist
+			// run shell wget URL -o path
 		}
 	}
 }
