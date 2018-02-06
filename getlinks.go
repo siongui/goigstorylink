@@ -17,6 +17,28 @@ type IGStory struct {
 	Url       string
 }
 
+func itemsToStories(items []TrayItem) (stories []IGStory) {
+	// One item represents one story
+	for _, item := range items {
+		// DO NOT use DeviceTimestamp. It's not reliable
+		story := IGStory{
+			Timestamp: item.TakenAt,
+		}
+
+		// check if the story is video or image
+		if len(item.VideoVersions) > 0 {
+			// the story is video
+			story.Url = item.VideoVersions[0].Url
+		} else {
+			// the story is image
+			story.Url = item.ImageVersions2.Candidates[0].Url
+		}
+
+		stories = append(stories, story)
+	}
+	return
+}
+
 // Get stories of users with unread stories. The returned users will contains
 // all users with unexpired stories, but only users with unread stories will
 // have non-empty Stories field.
@@ -31,25 +53,7 @@ func GetUnreadStories() (users []IGUser, err error) {
 			Id:       tray.Id,
 			Username: tray.User.Username,
 		}
-
-		// One item represents one story
-		for _, item := range tray.Items {
-			// DO NOT use DeviceTimestamp. It's not reliable
-			story := IGStory{
-				Timestamp: item.TakenAt,
-			}
-
-			// check if the story is video or image
-			if len(item.VideoVersions) > 0 {
-				// the story is video
-				story.Url = item.VideoVersions[0].Url
-			} else {
-				// the story is image
-				story.Url = item.ImageVersions2.Candidates[0].Url
-			}
-
-			user.Stories = append(user.Stories, story)
-		}
+		user.Stories = itemsToStories(tray.Items)
 
 		users = append(users, user)
 	}
@@ -65,24 +69,7 @@ func fetchUserStories(user *IGUser, c chan int) {
 		c <- 1
 		return
 	}
-	// One item represents one story
-	for _, item := range tray.Items {
-		// DO NOT use DeviceTimestamp. It's not reliable
-		story := IGStory{
-			Timestamp: item.TakenAt,
-		}
-
-		// check if the story is video or image
-		if len(item.VideoVersions) > 0 {
-			// the story is video
-			story.Url = item.VideoVersions[0].Url
-		} else {
-			// the story is image
-			story.Url = item.ImageVersions2.Candidates[0].Url
-		}
-
-		user.Stories = append(user.Stories, story)
-	}
+	user.Stories = itemsToStories(tray.Items)
 	c <- 1
 }
 
