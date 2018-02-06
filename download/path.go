@@ -21,7 +21,7 @@ func FormatTimestamp(timestamp int64) string {
 	return t.Format(time.RFC3339)
 }
 
-func BuildOutputPath(username, url string, timestamp int64) string {
+func BuildOutputFilePath(username, url string, timestamp int64) string {
 	dirname := path.Join("stories", username)
 	CreateDirIfNotExist(dirname)
 	filename := path.Base(StripQueryString(url))

@@ -8,7 +8,7 @@ import (
 	"os/exec"
 )
 
-func wget(url, filepath string) error {
+func Wget(url, filepath string) error {
 	// run shell `wget URL -O filepath`
 	cmd := exec.Command("wget", url, "-O", filepath)
 	cmd.Stdout = os.Stdout
@@ -16,7 +16,7 @@ func wget(url, filepath string) error {
 	return cmd.Run()
 }
 
-func printDownloadInfo(username, url, filepath string, timestamp int64) {
+func PrintDownloadInfo(username, url, filepath string, timestamp int64) {
 	cc := color.New(color.FgCyan)
 	rc := color.New(color.FgRed)
 	fmt.Print("Username: ")
@@ -30,26 +30,31 @@ func printDownloadInfo(username, url, filepath string, timestamp int64) {
 	fmt.Println(" ...")
 }
 
-func Download() {
-	users, err := igstory.GetUnreadStories()
-	if err != nil {
-		// TODO: return error
-		fmt.Println(err)
-		return
-	}
-
+func DownloadIGUsers(users []igstory.IGUser) {
 	for _, user := range users {
 		for _, story := range user.Stories {
-			p := BuildOutputPath(user.Username, story.Url, story.Timestamp)
+			// BuildOutputFilePath also create dir if not exist
+			p := BuildOutputFilePath(user.Username, story.Url, story.Timestamp)
 			// check if file exist
-			if _, err = os.Stat(p); os.IsNotExist(err) {
+			if _, err := os.Stat(p); os.IsNotExist(err) {
 				// file not exists
-				printDownloadInfo(user.Username, story.Url, p, story.Timestamp)
-				err = wget(story.Url, p)
+				PrintDownloadInfo(user.Username, story.Url, p, story.Timestamp)
+				err = Wget(story.Url, p)
 				if err != nil {
 					fmt.Println(err)
 				}
 			}
 		}
 	}
+}
+
+func DownloadUnread() {
+	users, err := igstory.GetUnreadStories()
+	if err != nil {
+		// return error? or just print?
+		fmt.Println(err)
+		return
+	}
+
+	DownloadIGUsers(users)
 }
