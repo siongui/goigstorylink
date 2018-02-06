@@ -6,6 +6,7 @@ import (
 	"github.com/siongui/goigstorylink"
 	"os"
 	"os/exec"
+	"time"
 )
 
 func Wget(url, filepath string) error {
@@ -57,4 +58,27 @@ func DownloadUnread() {
 	}
 
 	DownloadIGUsers(users)
+}
+
+func DownloadAll() {
+	users, err := igstory.GetAllStories()
+	if err != nil {
+		// return error? or just print?
+		fmt.Println(err)
+		return
+	}
+
+	DownloadIGUsers(users)
+}
+
+func MonitorAndDownload(userid, sessionid, csrftoken string) {
+	igstory.SetUserId(userid)
+	igstory.SetSessionId(sessionid)
+	igstory.SetCsrfToken(csrftoken)
+
+	for {
+		DownloadUnread()
+		fmt.Println("sleep 1 min")
+		time.Sleep(1 * time.Minute)
+	}
 }
