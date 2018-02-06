@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/siongui/goigstorylink"
 	"os"
+	"os/exec"
 )
 
 func Download() {
@@ -18,8 +19,15 @@ func Download() {
 			// check if file exist
 			if _, err = os.Stat(p); os.IsNotExist(err) {
 				// file not exists
-				fmt.Println(p)
+				fmt.Println("Download " + story.Url + " to " + p + " ...")
 				// run shell wget URL -o path
+				cmd := exec.Command("wget", story.Url, "-O", p)
+				cmd.Stdout = os.Stdout
+				cmd.Stderr = os.Stderr
+				err = cmd.Run()
+				if err != nil {
+					fmt.Println(err)
+				}
 			}
 		}
 	}
