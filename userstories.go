@@ -12,18 +12,18 @@ import (
 
 const UrlUserStories = `https://i.instagram.com/api/v1/feed/user/{{USERID}}/reel_media/`
 
-func GetUserStories(id int64, cfg map[string]string) (tray Tray, err error) {
+func GetUserStories(id int64) (tray Tray, err error) {
 	url := strings.Replace(UrlUserStories, "{{USERID}}", strconv.FormatInt(id, 10), 1)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return
 	}
 
-	req.AddCookie(&http.Cookie{Name: "ds_user_id", Value: cfg["ds_user_id"]})
-	req.AddCookie(&http.Cookie{Name: "sessionid", Value: cfg["sessionid"]})
-	req.AddCookie(&http.Cookie{Name: "csrftoken", Value: cfg["csrftoken"]})
+	req.AddCookie(&http.Cookie{Name: "ds_user_id", Value: config["ds_user_id"]})
+	req.AddCookie(&http.Cookie{Name: "sessionid", Value: config["sessionid"]})
+	req.AddCookie(&http.Cookie{Name: "csrftoken", Value: config["csrftoken"]})
 
-	req.Header.Set("User-Agent", cfg["User-Agent"])
+	req.Header.Set("User-Agent", config["User-Agent"])
 
 	client := &http.Client{}
 	resp, err := client.Do(req)

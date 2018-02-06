@@ -2,6 +2,10 @@ package igstory
 
 // Get all stories links of users that a user follows
 
+import (
+	"fmt"
+)
+
 type IGUser struct {
 	Id       int64
 	Username string
@@ -17,7 +21,7 @@ type IGStory struct {
 // all users with unexpired stories, but only users with unread stories will
 // have non-empty Stories field.
 func GetUnreadStories() (users []IGUser, err error) {
-	trays, err := GetReelsTray(config)
+	trays, err := GetReelsTray()
 	if err != nil {
 		return
 	}
@@ -53,11 +57,54 @@ func GetUnreadStories() (users []IGUser, err error) {
 	return
 }
 
+func fetchUserStories(user *IGUser, c chan int) {
+	tray, err := GetUserStories(user.Id)
+	if err != nil {
+		// TODO: handle error here
+		fmt.Println("In fetchUserStorie: fail to fetch " + user.Username)
+		c <- 1
+		return
+	}
+	// One item represents one story
+	for _, item := range tray.Items {
+		// DO NOT use DeviceTimestamp. It's not reliable
+		story := IGStory{
+			Timestamp: item.TakenAt,
+		}
+
+		// check if the story is video or image
+		if len(item.VideoVersions) > 0 {
+			// the story is video
+			story.Url = item.VideoVersions[0].Url
+		} else {
+			// the story is image
+			story.Url = item.ImageVersions2.Candidates[0].Url
+		}
+
+		user.Stories = append(user.Stories, story)
+	}
+	c <- 1
+}
+
 // Get all stories of users
 func GetAllStories() (users []IGUser, err error) {
 	users, err = GetUnreadStories()
 	if err != nil {
 		return
+	}
+
+	c := make(chan int)
+	numOfEmptyStoryUser := 0
+	for index, _ := range users {
+		if len(users[index].Stories) == 0 {
+			numOfEmptyStoryUser++
+			go fetchUserStories(&users[index], c)
+		}
+	}
+
+	// wait all goroutines to finish
+	for i := 0; i < numOfEmptyStoryUser; i++ {
+		<-c
 	}
 
 	return

@@ -53,17 +53,17 @@ type TrayItemImageVersion2 struct {
 	} `json:"candidates"`
 }
 
-func GetReelsTray(cfg map[string]string) (trays []Tray, err error) {
+func GetReelsTray() (trays []Tray, err error) {
 	req, err := http.NewRequest("GET", UrlAllStories, nil)
 	if err != nil {
 		return
 	}
 
-	req.AddCookie(&http.Cookie{Name: "ds_user_id", Value: cfg["ds_user_id"]})
-	req.AddCookie(&http.Cookie{Name: "sessionid", Value: cfg["sessionid"]})
-	req.AddCookie(&http.Cookie{Name: "csrftoken", Value: cfg["csrftoken"]})
+	req.AddCookie(&http.Cookie{Name: "ds_user_id", Value: config["ds_user_id"]})
+	req.AddCookie(&http.Cookie{Name: "sessionid", Value: config["sessionid"]})
+	req.AddCookie(&http.Cookie{Name: "csrftoken", Value: config["csrftoken"]})
 
-	req.Header.Set("User-Agent", cfg["User-Agent"])
+	req.Header.Set("User-Agent", config["User-Agent"])
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
