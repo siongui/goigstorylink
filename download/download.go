@@ -16,7 +16,6 @@ func Download() {
 			p := BuildOutputPath(user.Username, story.Url, story.Timestamp)
 			fmt.Println(p)
 
-			// check if dir exist
 			// check if file exist
 			// run shell wget URL -o path
 		}

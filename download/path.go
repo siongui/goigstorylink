@@ -3,6 +3,7 @@ package igstorydl
 import (
 	"net/url"
 	"path"
+	"strconv"
 	"time"
 )
 
@@ -22,6 +23,6 @@ func BuildOutputPath(username, url string, timestamp int64) string {
 	ext := path.Ext(filename)
 	t := time.Unix(timestamp, 0)
 	ts := t.Format(time.RFC3339)
-	p := path.Join(dirname, username+"-"+ts+ext)
+	p := path.Join(dirname, username+"-"+ts+"-"+strconv.FormatInt(timestamp, 10)+ext)
 	return p
 }
