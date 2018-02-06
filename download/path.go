@@ -16,13 +16,17 @@ func StripQueryString(inputUrl string) string {
 	return u.String()
 }
 
+func FormatTimestamp(timestamp int64) string {
+	t := time.Unix(timestamp, 0)
+	return t.Format(time.RFC3339)
+}
+
 func BuildOutputPath(username, url string, timestamp int64) string {
 	dirname := path.Join("stories", username)
 	CreateDirIfNotExist(dirname)
 	filename := path.Base(StripQueryString(url))
 	ext := path.Ext(filename)
-	t := time.Unix(timestamp, 0)
-	ts := t.Format(time.RFC3339)
+	ts := FormatTimestamp(timestamp)
 	p := path.Join(dirname, username+"-"+ts+"-"+strconv.FormatInt(timestamp, 10)+ext)
 	return p
 }
