@@ -3,6 +3,7 @@ package igstorydl
 import (
 	"fmt"
 	"github.com/siongui/goigstorylink"
+	"os"
 )
 
 func Download() {
@@ -14,10 +15,12 @@ func Download() {
 	for _, user := range users {
 		for _, story := range user.Stories {
 			p := BuildOutputPath(user.Username, story.Url, story.Timestamp)
-			fmt.Println(p)
-
 			// check if file exist
-			// run shell wget URL -o path
+			if _, err = os.Stat(p); os.IsNotExist(err) {
+				// file not exists
+				fmt.Println(p)
+				// run shell wget URL -o path
+			}
 		}
 	}
 }
