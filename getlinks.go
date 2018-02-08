@@ -62,7 +62,7 @@ func GetUnreadStories() (users []IGUser, err error) {
 }
 
 func fetchUserStories(user *IGUser, c chan int) {
-	tray, err := GetUserStories(user.Id)
+	tray, err := GetUserStoriesTray(user.Id)
 	if err != nil {
 		// TODO: handle error here
 		fmt.Println("In fetchUserStorie: fail to fetch " + user.Username)

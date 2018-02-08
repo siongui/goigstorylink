@@ -12,7 +12,7 @@ import (
 
 const UrlUserStories = `https://i.instagram.com/api/v1/feed/user/{{USERID}}/reel_media/`
 
-func GetUserStories(id int64) (tray Tray, err error) {
+func GetUserStoriesTray(id int64) (tray Tray, err error) {
 	url := strings.Replace(UrlUserStories, "{{USERID}}", strconv.FormatInt(id, 10), 1)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {

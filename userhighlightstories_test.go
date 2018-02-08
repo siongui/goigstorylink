@@ -4,11 +4,11 @@ import (
 	"testing"
 )
 
-func ExampleGetUserHighlightStories(t *testing.T) {
+func ExampleGetUserHighlightStoriesTray(t *testing.T) {
 	SetUserId("your user id")
 	SetSessionId("your session id")
 	SetCsrfToken("your csrf token")
-	trays, err := GetUserHighlightStories(25025320)
+	trays, err := GetUserHighlightStoriesTray(25025320)
 	if err != nil {
 		t.Error(err)
 		return

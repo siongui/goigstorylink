@@ -25,7 +25,7 @@ type HighlightTray struct {
 	Items           []TrayItem `json:"items"`
 }
 
-func GetUserHighlightStories(id int64) (trays []HighlightTray, err error) {
+func GetUserHighlightStoriesTray(id int64) (trays []HighlightTray, err error) {
 	url := strings.Replace(
 		UrlUserHighlightStories,
 		"{{USERID}}",
