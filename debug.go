@@ -5,13 +5,9 @@ import (
 	"time"
 )
 
-func PrintTray(tray Tray) {
-	fmt.Print(tray.Id)
-	fmt.Print(" : ")
-	fmt.Println(tray.User.Username)
-
+func PrintItems(items []TrayItem) {
 	// One item represents one story
-	for _, item := range tray.Items {
+	for _, item := range items {
 		// print timestamp of story
 		// DO NOT use DeviceTimestamp. It's not reliable
 		t := time.Unix(item.TakenAt, 0)
@@ -26,6 +22,20 @@ func PrintTray(tray Tray) {
 			fmt.Println(item.ImageVersions2.Candidates[0].Url)
 		}
 	}
+}
+
+func PrintTray(tray Tray) {
+	fmt.Print(tray.Id)
+	fmt.Print(" : ")
+	fmt.Println(tray.User.Username)
+	PrintItems(tray.Items)
+}
+
+func PrintHighlightTray(tray HighlightTray) {
+	fmt.Print(tray.Id)
+	fmt.Print(" : ")
+	fmt.Println(tray.User.Username)
+	PrintItems(tray.Items)
 }
 
 func PrintIGUsers(users []IGUser) {
