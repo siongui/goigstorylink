@@ -35,6 +35,7 @@ func PrintHighlightTray(tray HighlightTray) {
 	fmt.Print(tray.Id)
 	fmt.Print(" : ")
 	fmt.Println(tray.User.Username)
+	fmt.Println(tray.Title)
 	PrintItems(tray.Items)
 }
 

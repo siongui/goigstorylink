@@ -19,6 +19,7 @@ type RawHighlightsTray struct {
 
 // Used to decode JSON returned by Instagram story API.
 type HighlightTray struct {
+	Title           string     `json:"title"`
 	Id              string     `json:"id"`
 	LatestReelMedia int64      `json:"latest_reel_media"`
 	User            TrayUser   `json:"user"`
