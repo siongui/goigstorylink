@@ -44,6 +44,7 @@ func PrintIGUsers(users []IGUser) {
 		fmt.Print(user.Id)
 		fmt.Print(" : ")
 		fmt.Println(user.Username)
+		fmt.Println(user.Title)
 		for _, story := range user.Stories {
 			tt := time.Unix(story.Timestamp, 0)
 			fmt.Print(tt.Format(time.RFC3339))

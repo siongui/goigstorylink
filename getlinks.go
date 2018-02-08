@@ -10,6 +10,7 @@ type IGUser struct {
 	Id       int64
 	Username string
 	Stories  []IGStory
+	Title    string // for highlight story response
 }
 
 type IGStory struct {
@@ -92,6 +93,26 @@ func GetAllStories() (users []IGUser, err error) {
 	// wait all goroutines to finish
 	for i := 0; i < numOfEmptyStoryUser; i++ {
 		<-c
+	}
+
+	return
+}
+
+// Get highlight stories of a specific user
+func GetUserHighlightStories(userid int64) (users []IGUser, err error) {
+	trays, err := GetUserHighlightStoriesTray(userid)
+	if err != nil {
+		return
+	}
+
+	for _, tray := range trays {
+		user := IGUser{
+			Username: tray.User.Username,
+			Title:    tray.Title,
+		}
+		user.Stories = itemsToStories(tray.Items)
+
+		users = append(users, user)
 	}
 
 	return
