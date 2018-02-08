@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func ExampleGetUserHighlightStories(t *testing.T) {
+func ExampleGetUserHighlightStoriesTray(t *testing.T) {
 	SetUserId(os.Getenv("IG_DS_USER_ID"))
 	SetSessionId(os.Getenv("IG_SESSIONID"))
 	SetCsrfToken(os.Getenv("IG_CSRFTOKEN"))
