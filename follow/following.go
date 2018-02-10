@@ -28,12 +28,42 @@ type FollowUser struct {
 
 func GetFollowers(id, ds_user_id, sessionid, csrftoken string) (rf RawFollow, err error) {
 	url := strings.Replace(UrlFollowers, "{{USERID}}", id, 1)
-	return GetFollowResponse(url, ds_user_id, sessionid, csrftoken)
+	rf, err = GetFollowResponse(url, ds_user_id, sessionid, csrftoken)
+	if err != nil {
+		return
+	}
+
+	// If the list is too big and next_max_id is not ""
+	for rf.NextMaxId != "" {
+		urln := url + "?max_id=" + rf.NextMaxId
+		rfn, err := GetFollowResponse(urln, ds_user_id, sessionid, csrftoken)
+		if err != nil {
+			return rf, err
+		}
+		rf.Users = append(rf.Users, rfn.Users...)
+		rf.NextMaxId = rfn.NextMaxId
+	}
+	return
 }
 
 func GetFollowing(id, ds_user_id, sessionid, csrftoken string) (rf RawFollow, err error) {
 	url := strings.Replace(UrlFollowing, "{{USERID}}", id, 1)
-	return GetFollowResponse(url, ds_user_id, sessionid, csrftoken)
+	rf, err = GetFollowResponse(url, ds_user_id, sessionid, csrftoken)
+	if err != nil {
+		return
+	}
+
+	// If the list is too big and next_max_id is not ""
+	for rf.NextMaxId != "" {
+		urln := url + "?max_id=" + rf.NextMaxId
+		rfn, err := GetFollowResponse(urln, ds_user_id, sessionid, csrftoken)
+		if err != nil {
+			return rf, err
+		}
+		rf.Users = append(rf.Users, rfn.Users...)
+		rf.NextMaxId = rfn.NextMaxId
+	}
+	return
 }
 
 func GetFollowResponse(url, ds_user_id, sessionid, csrftoken string) (rf RawFollow, err error) {
