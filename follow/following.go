@@ -10,13 +10,15 @@ import (
 	"strings"
 )
 
+const UrlFollowers = `https://i.instagram.com/api/v1/friendships/{{USERID}}/followers/`
 const UrlFollowing = `https://i.instagram.com/api/v1/friendships/{{USERID}}/following/`
 
-type RawFollowing struct {
-	Users    []FollowUser `json:"users"`
-	BigList  bool         `json:"big_list"`
-	PageSize int64        `json:"page_size"`
-	Status   string       `json:"status"`
+type RawFollow struct {
+	Users     []FollowUser `json:"users"`
+	BigList   bool         `json:"big_list"` // if false, no next_max_id in response
+	PageSize  int64        `json:"page_size"`
+	Status    string       `json:"status"`
+	NextMaxId string       `json:"next_max_id"` // used for pagination if list is too big
 }
 
 type FollowUser struct {
@@ -24,8 +26,17 @@ type FollowUser struct {
 	Username string `json:"username"`
 }
 
-func GetFollowing(ds_user_id, sessionid, csrftoken string) (rf RawFollowing, err error) {
-	url := strings.Replace(UrlFollowing, "{{USERID}}", ds_user_id, 1)
+func GetFollowers(id, ds_user_id, sessionid, csrftoken string) (rf RawFollow, err error) {
+	url := strings.Replace(UrlFollowers, "{{USERID}}", id, 1)
+	return GetFollowResponse(url, ds_user_id, sessionid, csrftoken)
+}
+
+func GetFollowing(id, ds_user_id, sessionid, csrftoken string) (rf RawFollow, err error) {
+	url := strings.Replace(UrlFollowing, "{{USERID}}", id, 1)
+	return GetFollowResponse(url, ds_user_id, sessionid, csrftoken)
+}
+
+func GetFollowResponse(url, ds_user_id, sessionid, csrftoken string) (rf RawFollow, err error) {
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return
